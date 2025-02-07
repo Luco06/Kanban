@@ -7,6 +7,8 @@ import File from "../../../public/file.svg"
 
 interface InfoProps{
 date: string,
+commentaire:string,
+lien:string,
 }
 
 const InfoBox = styled.div`
@@ -14,14 +16,14 @@ display:flex;
 flex-direction:row;
 align-items:center;
 justify-content:space-around;
-width:60%;
+width:100%;
 `
 const BoxIcon= styled.div`
-width:20%;
+width:95%;
 display:flex;
 flex-direction:row;
 align-items:center;
-justify-content:space-around;
+justify-content:space-between;
 `
 const IconLeft = styled.div`
   width: 50px; 
@@ -30,24 +32,26 @@ const IconLeft = styled.div`
   overflow: hidden;
   display: flex; 
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
 `;
 
 const BoxIconRight= styled.div`
-width:70%;
+width:30%;
 display:flex;
 flex-direction:row;
 align-items:center;
-justify-content:space-around;
+justify-content:center;
 `
 
-const Info: React.FC<InfoProps> = ({ date})=>{
+const Info: React.FC<InfoProps> = ({lien, commentaire, date})=>{
 return<InfoBox>
     <BoxIcon>
         <IconLeft>
+            {lien}
             <Image src={Window} alt={Window}/>
         </IconLeft>
         <IconLeft>
+            {commentaire}
             <Image src={Globe} alt={Globe}/>
         </IconLeft>
         <BoxIconRight>
