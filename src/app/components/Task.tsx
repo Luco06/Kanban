@@ -7,7 +7,7 @@ import Info from "./Info";
 
 
 const TaskContainer = styled.div`
-width:25%;
+width:100%;
   background: ${({ theme }) => theme.colors.Bordprimary};
   color: black;
   border-radius: ${({ theme }) => theme.borderRadius};
@@ -37,7 +37,7 @@ interface User {
   avatar: string;
 }
 
-const Task = () => {
+const Task: React.FC<{ onTasksFetched: (tasks: Task[]) => void }> = ({ onTasksFetched }) => {
 
   const [taskList, setTaskList] = useState<Task[]>([]);
   const [users, setUsers] = useState<User[]>([]);
@@ -57,6 +57,7 @@ const Task = () => {
 
         setTaskList(tasksData);
         setUsers(usersData);
+        onTasksFetched(tasksData)
       } catch (error) {
         console.error("Erreur lors du chargement des données :", error);
       } finally {
