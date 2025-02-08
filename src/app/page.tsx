@@ -2,15 +2,16 @@
 import { ThemeProvider } from "styled-components";
 import GlobalStyles from "@/styles/GlobalStyles";
 import theme from "@/styles/theme";
-import Task from "./components/Task";
-import { tasks } from "./mocks/Tasks";
+import Board from "./components/Bord";
+import Column from "./components/Column";
+
 
 export default function Home() {
   return (
     <ThemeProvider theme={theme}>
         <GlobalStyles/>
     < >
-      <Task/>
+      <Board />
     </>
   </ThemeProvider>
   )
