@@ -1,93 +1,62 @@
 "use client";
 import styled from "styled-components";
 import Avatar from "./Avatar";
-import { useEffect, useState } from "react";
 import Info from "./Info";
-
-
+import { useDraggable } from "@dnd-kit/core";
 
 const TaskContainer = styled.div`
-width:100%;
+  width: 100%;
   background: ${({ theme }) => theme.colors.Bordprimary};
   color: black;
   border-radius: ${({ theme }) => theme.borderRadius};
-margin:30px;
-  text-align:center;
-  display:flex;
+  margin: 30px;
+  text-align: center;
+  display: flex;
   flex-direction: column;
-  align-items:center;
+  align-items: center;
+  padding: 5px;
+  cursor:pointer;
+
 `;
+
 const TaskResume = styled.div`
-margin:10px;
-color:#ADB5BD;
-text-align:center;
-`
-interface Task {
+  margin: 10px;
+  color: #adb5bd;
+  text-align: center;
+`;
+
+interface TaskProps {
   id: string;
   title: string;
   description: string;
-  status: string;
+  status: "todo" | "in progress" | "done";
   assigneeId: string;
   date: string;
+  users: { id: string; name: string; avatar: string }[];
 }
 
-interface User {
-  id: string;
-  name: string;
-  avatar: string;
-}
+const Task: React.FC<TaskProps> = ({ id, title, description, status, assigneeId, date, users }) => {
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id,
+  });
 
-const Task: React.FC<{ onTasksFetched: (tasks: Task[]) => void }> = ({ onTasksFetched }) => {
+  const style = transform ? { transform: `translate(${transform.x}px, ${transform.y}px)` } : {};
+  const assignee = users.find((user) => user.id === assigneeId);
 
-  const [taskList, setTaskList] = useState<Task[]>([]);
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
-
-
-  useEffect(() => {
-    // Charger les données de l'API
-    const fetchData = async () => {
-      try {
-        const [tasksRes, usersRes] = await Promise.all([
-          fetch("/api/tasks"),
-          fetch("/api/users"),
-        ]);
-        const tasksData = await tasksRes.json();
-        const usersData = await usersRes.json();
-
-        setTaskList(tasksData);
-        setUsers(usersData);
-        onTasksFetched(tasksData)
-      } catch (error) {
-        console.error("Erreur lors du chargement des données :", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (loading) {
-    return <p>Chargement...</p>;
-  }
-
-
-  return <>
-     {taskList.map((task) => {
-          const assignee = users.find((user) => user.id === task.assigneeId);
-          return (
-            <TaskContainer key={task.id}>
-              {task.title}
-              <TaskResume>{task.description}</TaskResume>
-              {assignee && (
-              <Avatar statut={task.status} img={assignee.avatar} alter={assignee.name}/>
-              )}
-              <Info date={task.date} lien="3" commentaire="5"/>
-            </TaskContainer>
-          );
-        })}
-  </>;
+  return (
+    <TaskContainer
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      style={style} // Style pour le déplacement
+   
+    >
+      <h4>{title}</h4>
+      <TaskResume>{description}</TaskResume>
+      {assignee && <Avatar statut={status} img={assignee.avatar} alter={assignee.name} />}
+      <Info date={date} lien="3" commentaire="5" />
+    </TaskContainer>
+  );
 };
 
 export default Task;
