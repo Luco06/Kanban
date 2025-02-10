@@ -13,6 +13,7 @@ height:40px;
 border-radius:10px;
 color:black;
 font-size:15px;
+margin:10px;
 cursor:pointer;
 
 
