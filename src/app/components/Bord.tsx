@@ -76,13 +76,45 @@ const onDragEnd = (event: DragEndEvent) => {
   }
 };
 
+const addTask = (title: string, description: string, status: "todo" | "in progress" | "done", assigneeId: string)=>{
+  console.log("AddTask")
+  const newTask : TaskType = {
+    id: Date.now().toString(),
+    title,
+    description,
+    status,
+    assigneeId,
+    date: new Date().toISOString(),
+  }
+  setTasks((prevTasks) => [...prevTasks, newTask]);
+
+}
+
+const deleteTask = (taskId: string) => {
+  console.log("delete task:", taskId); // Vérifie que cela s'affiche
+  setTasks([...tasks.filter((task) => task.id !== taskId)]);
+
+};
+
+
+const groupedTasks = tasks.reduce(
+  (acc, task) => {
+    acc[task.status].push(task);
+    return acc;
+  },
+  {
+    todo: [] as TaskType[],
+    "in progress": [] as TaskType[],
+    done: [] as TaskType[],
+  }
+);
 
   return (
     <DndContext onDragEnd={onDragEnd}>
       <BoardContainer>
-      <Column id="todo" name="À faire" tasks={tasks.filter((t) => t.status === "todo")} users={users} />
-      <Column id="in progress" name="En cours" tasks={tasks.filter((t) => t.status === "in progress")} users={users} />
-      <Column id="done" name="Terminé" tasks={tasks.filter((t) => t.status === "done")} users={users} />
+      <Column id="todo" name="À faire" tasks={groupedTasks.todo} users={users} addTask={addTask} deleteTask={deleteTask} />
+      <Column id="in progress" name="En cours" tasks={groupedTasks["in progress"]} users={users} addTask={addTask} deleteTask={deleteTask} />
+      <Column id="done" name="Terminé" tasks={groupedTasks.done} users={users} addTask={addTask} deleteTask={deleteTask} />
       </BoardContainer>
     </DndContext>
   );
