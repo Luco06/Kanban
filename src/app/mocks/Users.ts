@@ -11,5 +11,11 @@ export const users = [
       avatar: "/bobMartin.svg",
       status: "offline",
     },
+    {
+      id: "3",
+      name: "Bob Dylan",
+      avatar: "/bobMartin.svg",
+      status: "offline",
+    },
   ];
   

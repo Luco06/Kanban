@@ -3,16 +3,16 @@ import styled from "styled-components"
 
 interface ButtonProps{
     title:string,
-    onClick:any,
+    onClick():any,
 
 }
 
 const BtnApp = styled.button`
-width:150px;
-height:40px;
+padding:10px;
 border-radius:10px;
 color:black;
 font-size:15px;
+margin:10px;
 cursor:pointer;
 
 
