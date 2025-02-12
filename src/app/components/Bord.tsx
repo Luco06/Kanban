@@ -17,6 +17,7 @@ interface TaskType {
   status: "todo" | "in progress" | "done";
   assigneeId: string;
   date: string;
+  createdById:string;
 }
 
 interface User {
@@ -45,8 +46,7 @@ const Board: React.FC = () => {
         console.error("Erreur lors du chargement des données :", error);
       }
     };
-
-    fetchData();
+    fetchData()
   }, []);
 
 // Gestion du drag and drop
@@ -76,25 +76,63 @@ const onDragEnd = (event: DragEndEvent) => {
   }
 };
 
-const addTask = (title: string, description: string, status: "todo" | "in progress" | "done", assigneeId: string)=>{
-  console.log("AddTask")
-  const newTask : TaskType = {
-    id: Date.now().toString(),
-    title,
-    description,
-    status,
-    assigneeId,
-    date: new Date().toISOString(),
+const addTask = async (
+  title: string,
+  description: string,
+  status: "todo" | "in progress" | "done",
+  assigneeId: string
+) => {
+  console.log("Ajout d'une tâche...");
+
+  try {
+    const response = await fetch("/api/tasks", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title,
+        description,
+        status,
+        assigneeId,
+        date: new Date().toISOString(),
+        createdById: "67acb0939dd32b0725bb95ff", // ID de l'utilisateur créateur
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Échec de la création d'une tâche");
+    }
+
+    const createdTask: TaskType = await response.json(); // Récupère l'ID depuis l'API
+    console.log("Tâche créée :", createdTask);
+
+    setTasks((prevTasks) => [...prevTasks, createdTask]);
+  } catch (error) {
+    console.error("Erreur lors de l'ajout de la tâche :", error);
   }
-  setTasks((prevTasks) => [...prevTasks, newTask]);
-
-}
-
-const deleteTask = (taskId: string) => {
-  console.log("delete task:", taskId); // Vérifie que cela s'affiche
-  setTasks([...tasks.filter((task) => task.id !== taskId)]);
-
 };
+
+
+const deleteTask = async (taskId: string) => {
+  console.log("Suppression de la tâche :", taskId);
+
+  try {
+    const response = await fetch(`/api/tasks/${taskId}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error("Échec de la suppression de la tâche");
+    }
+
+    console.log("Tâche supprimée avec succès");
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
+  } catch (error) {
+    console.error("Erreur lors de la suppression de la tâche :", error);
+  }
+};
+
 
 
 const groupedTasks = tasks.reduce(
