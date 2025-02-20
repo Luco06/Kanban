@@ -8,6 +8,7 @@ export async function GET (){
         const tasks = await prisma.task.findMany();
         return NextResponse.json(tasks);
     }catch (error){
+        console.error("Erreur lors du chargement des tâches:", error);
         return NextResponse.json({error: "Erreur lors du chargement des tâches"})
     }
 }
@@ -26,6 +27,7 @@ export async function POST(request: Request){
         });
         return NextResponse.json(newTask, {status: 201});
     }catch (error) {
+        console.error("Échec de la création de la tâche", error);
         return NextResponse.json({error: "Échec de la création de la tâche"}, {status: 500});
     }
 }

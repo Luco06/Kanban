@@ -8,7 +8,8 @@ export async function GET() {
     const users = await prisma.user.findMany();
     return NextResponse.json(users)
   }catch (error) {
-    return NextResponse.json({error: "Erreur lo'rs du chargement des utilisateurs"}, {status:500})
+    console.error("Erreur l'ors du chargement des utilisateurs", error);
+    return NextResponse.json({error: "Erreur l'ors du chargement des utilisateurs"}, {status:500})
   }
 }
 
@@ -23,6 +24,7 @@ export async function POST(req: Request){
     });
     return NextResponse.json(newUser, {status: 201});
   }catch (error){
+    console.error("Erreur l'ors de la création d'un utilisateur", error);
     return NextResponse.json({error: "Erreur l'ors de la création d'un utilisateur"}, {status: 500})
   }
 }
