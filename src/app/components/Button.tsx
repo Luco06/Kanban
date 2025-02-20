@@ -3,7 +3,7 @@ import styled from "styled-components"
 
 interface ButtonProps{
     title:string,
-    onClick():any,
+    onClick: () => void;
 
 }
 
