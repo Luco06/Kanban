@@ -1,56 +1,54 @@
-"use client"
-import React from "react"
-import styled from "styled-components"
-import Board from "./Bord"
-import Button from "./Button"
-import { useAtomValue } from "jotai"
-import {UserState} from "../utils/atoms"
-import { IoIosNotifications } from "react-icons/io";
-import AvatarBord from "./AvatarBord"
+"use client";
+import React from "react";
+import styled from "styled-components";
+import Board from "./Bord";
+import { useAtomValue } from "jotai";
+import { UserState } from "../utils/atoms";
+import Sidebar from "./SideBar";
+import { FaHome, FaFolder, FaCog, FaSignOutAlt } from "react-icons/fa"; // Exemples d'icônes
 
-const Display :React.FC = ()=>{
-    const UserInfo = useAtomValue(UserState)
+const Display: React.FC = () => {
+  const UserInfo = useAtomValue(UserState);
+  const firstUser = UserInfo[0];
 
-const firstUser = UserInfo[0];
+  const menuItems = [
+    { name: "Accueil", icon: <FaHome /> },
+    { name: "Projets", icon: <FaFolder /> },
+    { name: "Paramètres", icon: <FaCog /> },
+    { name: "Déconnexion", icon: <FaSignOutAlt /> },
+  ];
 
+  return (
+    <Container>
+      <BoxApp>
+        <Sidebar title={firstUser.name} items={menuItems} />
+        <ContentContainer>
+          <Board />
+        </ContentContainer>
+      </BoxApp>
+    </Container>
+  );
+};
 
-return(<Container>
-    <Boxtitle>
-        <h2>Bonjour {firstUser.name} </h2>
-        <BtnContainer>
-
-        <Button title="+ Nouveau projet" onClick={()=>console.log("+ Nouveau projet")}/>
-        <IoIosNotifications size={50} color="white"/>
-        <AvatarBord img={firstUser.avatar} alter={firstUser.name}/>
-        </BtnContainer>
-    </Boxtitle>
-    <Board/>
-</Container>)
-}
 export default Display;
 
 const Container = styled.div`
-width:100%;
-border-radius:15px;
-background-color:red;
-display: flex;
-flex-direction:column;
-align-items:center;
-justify-content:space-between;
-`
+  width: 100%;
+  border-radius: 15px;
+  background: ${({ theme }) => theme.colors.Bordprimary};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+`;
 
-const Boxtitle = styled.div`
-width:90%;
-display: flex;
-flex-direction:row;
-align-items:center;
-justify-content:space-between;
-`
+const BoxApp = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+`;
 
-const BtnContainer = styled.div`
-width:30%;
-display:flex;
-flex-direction:row;
-justify-content:space-around;
-align-items:center;
-`
+const ContentContainer = styled.div`
+  flex: 1;
+  padding: 50px; 
+`;
