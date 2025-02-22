@@ -3,10 +3,11 @@ import { useState, useEffect } from "react";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import Column from "./Column";
 import styled from "styled-components";
+import { useSetAtom } from "jotai";
+import { UserState } from '../utils/atoms'
 
 const BoardContainer = styled.div`
   display: flex;
-  width: 90%;
   margin: auto;
 `;
 
@@ -29,6 +30,7 @@ interface User {
 const Board: React.FC = () => {
   const [tasks, setTasks] = useState<TaskType[]>([]);
   const [users, setUsers] = useState<User[]>([]);
+  const setUserState = useSetAtom(UserState)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,6 +44,7 @@ const Board: React.FC = () => {
 
         setTasks(tasksData);
         setUsers(usersData);
+        setUserState(usersData)
       } catch (error) {
         console.error("Erreur lors du chargement des données :", error);
       }
