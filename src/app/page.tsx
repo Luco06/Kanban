@@ -2,7 +2,9 @@
 import { ThemeProvider } from "styled-components";
 import GlobalStyles from "@/styles/GlobalStyles";
 import theme from "@/styles/theme";
-import Board from "./components/Bord";
+import Display from "./components/Display";
+
+
 
 
 export default function Home() {
@@ -10,7 +12,7 @@ export default function Home() {
     <ThemeProvider theme={theme}>
         <GlobalStyles/>
     < >
-      <Board />
+      <Display/>
     </>
   </ThemeProvider>
   )
