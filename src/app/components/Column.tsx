@@ -12,7 +12,7 @@ const ColumnContainer = styled.div`
   background: #f1f1f1;
   padding: 10px;
   border-radius: ${({ theme }) => theme.borderRadius};
-  width: 30%;
+  width: 32%;
   margin: 10px;
 `;
 
