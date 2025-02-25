@@ -24,7 +24,7 @@ const AvatarImage = styled.div`
 const AvatarBord: React.FC<AvatarBordProps> = ({img ,alter })=>{
     return <>
         <AvatarImage>
-        <Image src={img} alt={alter} width={40} height={40} />
+        <img src={img || undefined} alt={alter} width="40" height="40" />
         </AvatarImage>
     </>
    

@@ -44,11 +44,17 @@ const Container = styled.div`
 
 const BoxApp = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 100%;
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
 `;
 
 const ContentContainer = styled.div`
   flex: 1;
-  padding: 50px; 
+  padding: 20px;
+  @media (min-width: 768px) {
+    padding: 50px;
+  }
 `;

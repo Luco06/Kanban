@@ -18,7 +18,7 @@ const Sidebar: React.FC<SidebarProps> = ({ title, items }) => {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
-    <Container isOpen={isOpen}>
+    <Container $isOpen={isOpen}>
       <ToggleButton onClick={() => setIsOpen(!isOpen)}>
         {isOpen ? <RiSubtractFill/> : <FaPlus/>}
       </ToggleButton>
@@ -41,15 +41,20 @@ const Sidebar: React.FC<SidebarProps> = ({ title, items }) => {
 
 export default Sidebar;
 
-const Container = styled.div<{ isOpen: boolean }>`
+const Container = styled.div<{ $isOpen: boolean }>`
   width: ${(isOpen) => (isOpen ? 250 : 20)};
   background-color: white;
-  height:100vh;
   color: black;
   padding: 20px;
   display: flex;
   flex-direction: column;
   transition: width 0.3s ease;
+  @media (min-width: 768px) {
+    height: 100vh;
+  }
+  @media (max-width: 767px) {
+    height: ${({ $isOpen }) => ($isOpen ? 250 : 60)};
+  }
 `;
 
 const ToggleButton = styled.button`

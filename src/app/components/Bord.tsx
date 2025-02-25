@@ -11,10 +11,7 @@ import Button from "./Button";
 import { useAtomValue } from "jotai";
 
 
-const BoardContainer = styled.div`
-  display: flex;
-  margin: auto;
-`;
+
 
 interface TaskType {
   id: string;
@@ -177,19 +174,38 @@ const groupedTasks = tasks.reduce(
 };
 
 export default Board;
+const BoardContainer = styled.div`
+ display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  @media (min-width: 768px) {
+flex-direction:row;
+  
+  }
+`;
 
 const Boxtitle = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  gap: 10px;
+  padding: 10px;
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
 `;
 
 const BtnContainer = styled.div`
-  width: 30%;
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+  gap: 10px;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  @media (min-width: 768px) {
+    justify-content: space-between;
+  }
 `;
