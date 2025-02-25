@@ -3,12 +3,15 @@ import { useState, useEffect } from "react";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import Column from "./Column";
 import styled from "styled-components";
+import { useSetAtom } from "jotai";
+import { UserState } from '../utils/atoms'
+import { IoIosNotifications } from "react-icons/io";
+import AvatarBord from "./AvatarBord";
+import Button from "./Button";
+import { useAtomValue } from "jotai";
 
-const BoardContainer = styled.div`
-  display: flex;
-  width: 90%;
-  margin: auto;
-`;
+
+
 
 interface TaskType {
   id: string;
@@ -27,8 +30,11 @@ interface User {
 }
 
 const Board: React.FC = () => {
+  const UserInfo = useAtomValue(UserState);
+  const firstUser = UserInfo[0];
   const [tasks, setTasks] = useState<TaskType[]>([]);
   const [users, setUsers] = useState<User[]>([]);
+  const setUserState = useSetAtom(UserState)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,6 +48,7 @@ const Board: React.FC = () => {
 
         setTasks(tasksData);
         setUsers(usersData);
+        setUserState(usersData)
       } catch (error) {
         console.error("Erreur lors du chargement des données :", error);
       }
@@ -149,6 +156,14 @@ const groupedTasks = tasks.reduce(
 
   return (
     <DndContext onDragEnd={onDragEnd}>
+      <Boxtitle>
+        <h2>Bonjour {firstUser.name} </h2>
+        <BtnContainer>
+          <Button title="+ Nouveau projet" onClick={() => console.log("+ Nouveau projet")} />
+          <IoIosNotifications size={50} color="black" />
+          <AvatarBord img={firstUser.avatar} alter={firstUser.name} />
+        </BtnContainer>
+      </Boxtitle>
       <BoardContainer>
       <Column id="todo" name="À faire" tasks={groupedTasks.todo} users={users} addTask={addTask} deleteTask={deleteTask} />
       <Column id="in progress" name="En cours" tasks={groupedTasks["in progress"]} users={users} addTask={addTask} deleteTask={deleteTask} />
@@ -159,3 +174,38 @@ const groupedTasks = tasks.reduce(
 };
 
 export default Board;
+const BoardContainer = styled.div`
+ display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  @media (min-width: 768px) {
+flex-direction:row;
+  
+  }
+`;
+
+const Boxtitle = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+`;
+
+const BtnContainer = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  @media (min-width: 768px) {
+    justify-content: space-between;
+  }
+`;

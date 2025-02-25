@@ -12,8 +12,11 @@ const ColumnContainer = styled.div`
   background: #f1f1f1;
   padding: 10px;
   border-radius: ${({ theme }) => theme.borderRadius};
-  width: 30%;
+  width: 100%;
   margin: 10px;
+  @media (min-width: 768px) {
+    width: 32%;
+  }
 `;
 
 const ModalOverlay = styled.div`
@@ -26,13 +29,15 @@ const ModalOverlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  padding:20px;
 `;
 
 const ModalContent = styled.div`
   background: white;
   padding: 20px;
   border-radius: ${({ theme }) => theme.borderRadius};
-  width: ;
+  width:100%;
+  max-width:400px;
   text-align: center;
 `;
 

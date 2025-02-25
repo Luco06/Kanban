@@ -14,7 +14,6 @@ flex-direction:row;
 align-items:center;
 justify-content:space-around;
 width:100%;
-border-bottom:solid #DEE2E6 1px;
 `
 const AvatarImage = styled.div`
   width: 40px; 
