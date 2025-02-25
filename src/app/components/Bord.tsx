@@ -177,8 +177,8 @@ export default Board;
 const BoardContainer = styled.div`
  display: flex;
   flex-direction: column;
-  align-items: center;
   width: 100%;
+  margin:auto;
   @media (min-width: 768px) {
 flex-direction:row;
   
