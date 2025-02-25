@@ -1,5 +1,6 @@
 "use client"
 import styled from "styled-components"
+import Image from "next/image"
 
 interface AvatarBordProps{
     img:string
@@ -23,7 +24,7 @@ const AvatarImage = styled.div`
 const AvatarBord: React.FC<AvatarBordProps> = ({img ,alter })=>{
     return <>
         <AvatarImage>
-        <img src={img || undefined} alt={alter} width="40" height="40" />
+        <Image src={img ?? "/public/bobMartin.svg" } alt={alter} width={40} height={40} />
         </AvatarImage>
     </>
    
